@@ -86,8 +86,7 @@ var Commands = []*cli.Command{
     },
 }
 
-var downloadSource = "http://github.com/shumybest/ragnaros2/raw/master/cmd/ragnaros/"
-var privateToken = "sNqkzH9rnjqREiLV88Zs"
+var downloadSource = "https://raw.githubusercontent.com/shumybest/ragnaros2/master/cmd/ragnaros/"
 var templateFiles = map[string]string{
     "tpls/Makefile.tpl":                              "Makefile",
     "tpls/Dockerfile.tpl":                            "Dockerfile",
@@ -108,7 +107,7 @@ func downloadTemplates(binDir string, c *cli.Context) {
             fmt.Println("Downloading template file : " + key + " into " + binDir)
 
             client := resty.New()
-            client.SetHeaders(map[string]string{"PRIVATE-TOKEN": privateToken}).SetHostURL(downloadSource)
+            client.SetHostURL(downloadSource)
             if resp, err := client.R().Get(key); err == nil {
                 absOutputFileName := path.Join(binDir, key)
                 _ = os.MkdirAll(path.Dir(absOutputFileName), os.ModePerm)
