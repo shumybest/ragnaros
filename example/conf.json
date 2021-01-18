@@ -1,0 +1,19 @@
+{
+  "App": {
+    "ProjectName": "generated",
+    "ControllerName": "firstProject"
+  },
+  "K8s": {
+    "Spring": {
+      "Profiles": "prod",
+      "CloudConfigUri": "http://admin:${registry.password}@example.cluster.local:8761/config",
+      "DataSourceUrl": "jdbc:mysql://example.mysql.rds.aliyuncs.com:3306/example?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai"
+    },
+    "Server": {
+      "Port": 12333
+    },
+    "Eureka": {
+      "ServiceUrl": "http://admin:${registry.password}@example.cluster.local:8761/eureka/"
+    }
+  }
+}

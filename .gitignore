@@ -1,0 +1,6 @@
+.idea
+.vscode
+./ragnaros
+./cmd/ragnaros/ragnaros
+vendor/
+node_modules
