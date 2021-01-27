@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "github.com/go-resty/resty/v2"
-    "github.com/shumybest/ragnaros2/config"
+    "github.com/shumybest/ragnaros/config"
     "github.com/urfave/cli/v2"
     "io"
     "io/ioutil"

@@ -8,7 +8,7 @@ a go implementation of Spring Cloud Netflix Microservice framework
 
 Install the Ragnaros command line tool for quick project generation.
 ```shell
-go get github.com/shumybest/ragnaros2/cmd/ragnaros
+go get github.com/shumybest/ragnaros/cmd/ragnaros
 ```
 
 Ragnaros usage reference, <[configuration.json](example/conf.json)> example reference [here](example/conf.json):
@@ -36,7 +36,7 @@ ragnaros download --force
 - [x] MySQL ORM support
 - [x] Redis support
 - [x] go implementation of FeignClient
-- [x] Dockerized support: [Dockerfile example](http://github.com/shumybest/ragnaros2-example)
+- [x] Dockerized support: [Dockerfile example](http://github.com/shumybest/ragnaros-example)
 - [x] SpringCloud Config integration
 - [x] go tools for project generation
 - [x] async invoke of FeignClient
@@ -67,7 +67,7 @@ non-blocking IO performance | 5000 req/sec | 2500 req/sec
 - go env -w GOPROXY="https://mirrors.aliyun.com/goproxy/,direct"
 
 #### How To Use
-- [usage example](http://github.com/shumybest/ragnaros2-example)
+- [usage example](http://github.com/shumybest/ragnaros-example)
 - copy java application yml configure files to runtime directory (default directory: **./resources/config**)
 - configuration file loading sequence: **bootstrap.yml -> bootstrap-<profile>.yml -> application.yml -> application-<profile>.yml**
 - environment variables will overwrite the configuration in file, like SERVER_PORT to overwrite server.port in file
@@ -77,7 +77,7 @@ non-blocking IO performance | 5000 req/sec | 2500 req/sec
 package main
 
 import (
-	"github.com/shumybest/ragnaros2"
+	"github.com/shumybest/ragnaros"
 	"ragnaros-example/app"
 )
 
@@ -103,8 +103,8 @@ func main() {
 package main
 
 import (
-	"github.com/shumybest/ragnaros2"
-	"github.com/shumybest/ragnaros2/feign"
+	"github.com/shumybest/ragnaros"
+	"github.com/shumybest/ragnaros/feign"
 	"context"
 	"encoding/json"
 	"github.com/gin-gonic/gin"

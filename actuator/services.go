@@ -2,10 +2,10 @@ package actuator
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/shumybest/ragnaros2/config"
-	"github.com/shumybest/ragnaros2/eureka"
-	"github.com/shumybest/ragnaros2/repository"
-	"github.com/shumybest/ragnaros2/utils"
+	"github.com/shumybest/ragnaros/config"
+	"github.com/shumybest/ragnaros/eureka"
+	"github.com/shumybest/ragnaros/repository"
+	"github.com/shumybest/ragnaros/utils"
 	"net/http"
 	"os"
 	"strings"

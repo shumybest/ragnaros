@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/shumybest/ragnaros2"
-	"github.com/shumybest/ragnaros2/feign"
+	"github.com/shumybest/ragnaros"
+	"github.com/shumybest/ragnaros/feign"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"

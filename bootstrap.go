@@ -1,12 +1,12 @@
 package ragnaros
 
 import (
-	"github.com/shumybest/ragnaros2/actuator"
-	"github.com/shumybest/ragnaros2/config"
-	"github.com/shumybest/ragnaros2/eureka"
-	"github.com/shumybest/ragnaros2/log"
-	"github.com/shumybest/ragnaros2/repository"
-	"github.com/shumybest/ragnaros2/web"
+	"github.com/shumybest/ragnaros/actuator"
+	"github.com/shumybest/ragnaros/config"
+	"github.com/shumybest/ragnaros/eureka"
+	"github.com/shumybest/ragnaros/log"
+	"github.com/shumybest/ragnaros/repository"
+	"github.com/shumybest/ragnaros/web"
 	"github.com/urfave/cli/v2"
 	"runtime/debug"
 )

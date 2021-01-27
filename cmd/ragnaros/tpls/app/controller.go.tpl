@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/shumybest/ragnaros2"
+	"github.com/shumybest/ragnaros"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

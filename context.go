@@ -1,9 +1,9 @@
 package ragnaros
 
 import (
-	"github.com/shumybest/ragnaros2/log"
-	"github.com/shumybest/ragnaros2/repository"
-	"github.com/shumybest/ragnaros2/web"
+	"github.com/shumybest/ragnaros/log"
+	"github.com/shumybest/ragnaros/repository"
+	"github.com/shumybest/ragnaros/web"
 )
 
 type Context struct {

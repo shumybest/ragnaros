@@ -2,7 +2,7 @@ package eureka
 
 import (
 	"encoding/xml"
-	"github.com/shumybest/ragnaros2/config"
+	"github.com/shumybest/ragnaros/config"
 	"strings"
 )
 

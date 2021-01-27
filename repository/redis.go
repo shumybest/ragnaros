@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
-	"github.com/shumybest/ragnaros2/config"
+	"github.com/shumybest/ragnaros/config"
 	"sync"
 	"time"
 )

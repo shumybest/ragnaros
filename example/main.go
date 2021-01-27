@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/shumybest/ragnaros2"
+	"github.com/shumybest/ragnaros"
 )
 
 func main() {

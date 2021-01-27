@@ -3,8 +3,8 @@ package security
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/shumybest/ragnaros2/config"
-	"github.com/shumybest/ragnaros2/log"
+	"github.com/shumybest/ragnaros/config"
+	"github.com/shumybest/ragnaros/log"
 	"net/http"
 	"strings"
 )

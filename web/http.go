@@ -2,9 +2,9 @@ package web
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/shumybest/ragnaros2/config"
-	"github.com/shumybest/ragnaros2/log"
-	"github.com/shumybest/ragnaros2/security"
+	"github.com/shumybest/ragnaros/config"
+	"github.com/shumybest/ragnaros/log"
+	"github.com/shumybest/ragnaros/security"
 	"github.com/toorop/gin-logrus"
 	"net/http"
 	"sync"

@@ -1,4 +1,4 @@
-module github.com/shumybest/ragnaros2
+module github.com/shumybest/ragnaros
 
 go 1.13
 

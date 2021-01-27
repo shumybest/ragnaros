@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"github.com/shumybest/ragnaros2/config"
-	"github.com/shumybest/ragnaros2/eureka"
-	"github.com/shumybest/ragnaros2/log"
-	"github.com/shumybest/ragnaros2/utils"
+	"github.com/shumybest/ragnaros/config"
+	"github.com/shumybest/ragnaros/eureka"
+	"github.com/shumybest/ragnaros/log"
+	"github.com/shumybest/ragnaros/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"strings"

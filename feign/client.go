@@ -3,7 +3,7 @@ package feign
 import (
 	"errors"
 	"github.com/go-resty/resty/v2"
-	"github.com/shumybest/ragnaros2/config"
+	"github.com/shumybest/ragnaros/config"
 	"strings"
 	"time"
 )
