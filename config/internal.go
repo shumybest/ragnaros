@@ -3,18 +3,15 @@ package config
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"github.com/imdario/mergo"
-	"github.com/shumybest/ragnaros/log"
 	"github.com/shumybest/ragnaros/utils"
-	"github.com/urfave/cli/v2"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"os"
 	"regexp"
 	"strings"
 )
-
-var logger = log.GetLoggerInstance()
 
 func shallPutValue(env string, path string, field *string, defaultValue string) {
 	envValue := os.Getenv(env)
@@ -40,11 +37,6 @@ func shallPutValue(env string, path string, field *string, defaultValue string) 
 	}
 
 	return
-}
-
-func parseOptions(...*cli.Context) {
-	// handle for no options, assign default values
-	shallPutValue("RAGNAROS_CONF_DIR", "", &Context.ConfDir, "resources/config")
 }
 
 func loadBootstrapConf() {
@@ -82,7 +74,7 @@ func fetchSpringCloudConf() {
 		resp, err := utils.RetryableClient().
 			Get(cloudConfigUrl + "/" + cloudConfigProfile + "/" + cloudConfigLabel)
 		if err != nil {
-			logger.Error(err)
+			fmt.Println(err)
 			return
 		}
 
@@ -90,7 +82,7 @@ func fetchSpringCloudConf() {
 			var cloudConfig CloudConfig
 			_ = json.Unmarshal([]byte(resp.String()), &cloudConfig)
 			for _, source := range cloudConfig.PropertySources {
-				logger.Info("load cloud config " + source.Name)
+				fmt.Println("load cloud config " + source.Name)
 				for k, v := range source.Source {
 					setField(k, v, configStore)
 				}
@@ -124,6 +116,13 @@ func finalizeValue() {
 	shallPutValue("SPRING_REDIS_HOST", "spring.redis.host", nil, "127.0.0.1")
 	shallPutValue("SPRING_REDIS_PORT", "spring.redis.port", nil, "6379")
 
+	// elasticsearch address for logging
+	shallPutValue("RAGNAROS_ELASTICSEARCH_URL", "", nil, "")
+	shallPutValue("RAGNAROS_ELASTICSEARCH_HOST", "", nil, "")
+	shallPutValue("RAGNAROS_ELASTICSEARCH_PORT", "", nil, "9200")
+	shallPutValue("RAGNAROS_ELASTICSEARCH_USERNAME", "", nil, "")
+	shallPutValue("RAGNAROS_ELASTICSEARCH_PASSWORD", "", nil, "")
+
 	base64Secret := GetConfigString("jhipster.security.authentication.jwt.base64-secret")
 	secret, _ := base64.StdEncoding.DecodeString(base64Secret)
 	Context.Security.JwtSecret = secret
@@ -135,11 +134,11 @@ func loadYMLConfig(configFile string, config *InterfaceMap) {
 	fullPath := Context.ConfDir + "/" + configFile + SuffixConfig
 	buffer, err := ioutil.ReadFile(fullPath)
 	if err != nil {
-		logger.Error(err)
+		fmt.Println(err)
 		return
 	}
 	err = yaml.Unmarshal(buffer, config)
-	logger.Info("load configuration from: " + fullPath)
+	fmt.Println("load configuration from: " + fullPath)
 }
 
 func mergeConfig(dst *InterfaceMap, src InterfaceMap) {

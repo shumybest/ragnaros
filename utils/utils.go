@@ -1,11 +1,8 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/go-resty/resty/v2"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
-	"github.com/shirou/gopsutil/mem"
-	"github.com/shumybest/ragnaros/log"
 	"math/rand"
 	"net"
 	"net/url"
@@ -13,12 +10,10 @@ import (
 	"time"
 )
 
-var logger = log.GetLoggerInstance()
-
 func GetLocalIp() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
-		logger.Error(err)
+		fmt.Println(err)
 		return ""
 	}
 
@@ -43,28 +38,6 @@ func RandomString(length int) string {
 	return string(b)
 }
 
-func GetDiskSpace() *disk.UsageStat {
-	parts, err := disk.Partitions(true)
-	if err != nil {
-		logger.Errorf("get Partitions failed, err:%v\n", err)
-		return nil
-	}
-
-	for _, part := range parts {
-		if part.Mountpoint == "/" {
-			diskInfo, _ := disk.Usage(part.Mountpoint)
-			return diskInfo
-		}
-	}
-
-	return nil
-}
-
-func GetCpuUsage() []float64 {
-	percent, _ := cpu.Percent(time.Second, false)
-	return percent
-}
-
 func Average(s []float64) float64 {
 	total := 0.0
 	for _, i := range s {
@@ -72,11 +45,6 @@ func Average(s []float64) float64 {
 	}
 
 	return total / float64(len(s))
-}
-
-func GetMemUsage() *mem.VirtualMemoryStat {
-	v, _ := mem.VirtualMemory()
-	return v
 }
 
 func JdbcToDSN(connStr string) string {

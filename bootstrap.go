@@ -7,7 +7,6 @@ import (
 	"github.com/shumybest/ragnaros/log"
 	"github.com/shumybest/ragnaros/repository"
 	"github.com/shumybest/ragnaros/web"
-	"github.com/urfave/cli/v2"
 	"runtime/debug"
 )
 
@@ -18,18 +17,9 @@ func InjectApps(injectedFunc ...injectedApp) {
 	apps = append(apps, injectedFunc...)
 }
 
-// with options
-func StartOpts(c *cli.Context) error {
-	config.Init(c)
-	initComponents()
-	run()
-
-	return nil
-}
-
 // no options
-func Start() {
-	config.Init()
+func Start(serviceName string) {
+	config.Init(serviceName)
 	initComponents()
 	run()
 }

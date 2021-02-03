@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/urfave/cli/v2"
 )
 
 // tricky interface wrapper
@@ -41,6 +40,7 @@ type Claims struct {
 var Context = struct {
 	Profiles           string
 	ConfDir            string
+	ServiceName        string
 	Hostname           string
 	IpAddr             string
 	Port               string
@@ -58,8 +58,10 @@ const (
 	SuffixConfig      = ".yml"
 )
 
-func Init(c ...*cli.Context) {
-	parseOptions(c...)
+func Init(serviceName string) {
+	shallPutValue("RAGNAROS_SERVICENAME", "", &Context.ServiceName, serviceName)
+	shallPutValue("RAGNAROS_CONF_DIR", "", &Context.ConfDir, "resources/config")
+
 	loadBootstrapConf()
 	loadApplicationConf()
 	fetchSpringCloudConf()

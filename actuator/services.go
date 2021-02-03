@@ -2,14 +2,21 @@ package actuator
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/shirou/gopsutil/cpu"
+	"github.com/shirou/gopsutil/disk"
+	"github.com/shirou/gopsutil/mem"
 	"github.com/shumybest/ragnaros/config"
 	"github.com/shumybest/ragnaros/eureka"
+	"github.com/shumybest/ragnaros/log"
 	"github.com/shumybest/ragnaros/repository"
 	"github.com/shumybest/ragnaros/utils"
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
+
+var logger = log.GetLoggerInstance()
 
 type health struct {
 	dbDetails    `json:"db,omitempty"`
@@ -22,6 +29,33 @@ type info struct {
 	memDetails   `json:"memUsage,omitempty"`
 	dbDetails    `json:"db,omitempty"`
 	redisDetails `json:"redis,omitempty"`
+}
+
+func getDiskSpace() *disk.UsageStat {
+	parts, err := disk.Partitions(true)
+	if err != nil {
+		logger.Errorf("get Partitions failed, err:%v\n", err)
+		return nil
+	}
+
+	for _, part := range parts {
+		if part.Mountpoint == "/" {
+			diskInfo, _ := disk.Usage(part.Mountpoint)
+			return diskInfo
+		}
+	}
+
+	return nil
+}
+
+func getCpuUsage() []float64 {
+	percent, _ := cpu.Percent(time.Second, false)
+	return percent
+}
+
+func getMemUsage() *mem.VirtualMemoryStat {
+	v, _ := mem.VirtualMemory()
+	return v
 }
 
 func healthHandler(c *gin.Context) {
@@ -51,7 +85,7 @@ func healthHandler(c *gin.Context) {
 
 func infoHandler(c *gin.Context) {
 	// disk details
-	diskUsage := utils.GetDiskSpace()
+	diskUsage := getDiskSpace()
 	spaceDetail := diskSpace{
 		diskUsage.Total,
 		diskUsage.Free,
@@ -68,7 +102,7 @@ func infoHandler(c *gin.Context) {
 	}
 
 	// cpu details
-	cpuUsage := utils.GetCpuUsage()
+	cpuUsage := getCpuUsage()
 	cpuStatus := eureka.UP
 	if utils.Average(cpuUsage) > 80.0 {
 		cpuStatus = eureka.DOWN
@@ -79,7 +113,7 @@ func infoHandler(c *gin.Context) {
 	}
 
 	// mem details
-	vmemUsage := utils.GetMemUsage()
+	vmemUsage := getMemUsage()
 	memStatus := eureka.UP
 	if vmemUsage.UsedPercent > 80.0 {
 		memStatus = eureka.DOWN

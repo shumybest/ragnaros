@@ -7,5 +7,5 @@ import (
 
 func main() {
 	ragnaros.InjectApps(app.{{ Export .App.ControllerName }})
-	ragnaros.Start()
+	ragnaros.Start("{{ .App.ProjectName }}")
 }
