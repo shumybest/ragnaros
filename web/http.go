@@ -3,14 +3,12 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/shumybest/ragnaros/config"
-	"github.com/shumybest/ragnaros/log"
+	. "github.com/shumybest/ragnaros/logger"
 	"github.com/shumybest/ragnaros/security"
 	"github.com/toorop/gin-logrus"
 	"net/http"
 	"sync"
 )
-
-var logger = log.GetLoggerInstance()
 
 type HttpServer struct {
 	*gin.Engine
@@ -29,7 +27,7 @@ func GetHTTPInstance() *HttpServer {
 }
 
 func (h *HttpServer) InitRouter() {
-	h.Use(ginlogrus.Logger(logger))
+	h.Use(ginlogrus.Logger(Logger))
 	h.GET("/", func(c *gin.Context){
 		c.String(http.StatusOK, "Welcome to use Ragnaros Spring Cloud golang suites.")
 	})

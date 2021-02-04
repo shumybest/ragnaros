@@ -7,7 +7,7 @@ import (
 	"github.com/shirou/gopsutil/mem"
 	"github.com/shumybest/ragnaros/config"
 	"github.com/shumybest/ragnaros/eureka"
-	"github.com/shumybest/ragnaros/log"
+	. "github.com/shumybest/ragnaros/logger"
 	"github.com/shumybest/ragnaros/repository"
 	"github.com/shumybest/ragnaros/utils"
 	"net/http"
@@ -15,8 +15,6 @@ import (
 	"strings"
 	"time"
 )
-
-var logger = log.GetLoggerInstance()
 
 type health struct {
 	dbDetails    `json:"db,omitempty"`
@@ -34,7 +32,7 @@ type info struct {
 func getDiskSpace() *disk.UsageStat {
 	parts, err := disk.Partitions(true)
 	if err != nil {
-		logger.Errorf("get Partitions failed, err:%v\n", err)
+		Logger.Errorf("get Partitions failed, err:%v\n", err)
 		return nil
 	}
 

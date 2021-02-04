@@ -4,7 +4,7 @@ import (
 	"github.com/shumybest/ragnaros/actuator"
 	"github.com/shumybest/ragnaros/config"
 	"github.com/shumybest/ragnaros/eureka"
-	"github.com/shumybest/ragnaros/log"
+	"github.com/shumybest/ragnaros/logger"
 	"github.com/shumybest/ragnaros/repository"
 	"github.com/shumybest/ragnaros/web"
 	"runtime/debug"
@@ -13,21 +13,21 @@ import (
 type injectedApp func(*Context)
 var apps []injectedApp
 
+func init() {
+	config.InitConfig()
+	logger.InitLogger()
+}
+
 func InjectApps(injectedFunc ...injectedApp) {
 	apps = append(apps, injectedFunc...)
 }
 
-// no options
-func Start(serviceName string) {
-	config.Init(serviceName)
+func Start() {
 	initComponents()
 	run()
 }
 
 func initComponents() {
-	l := log.GetLoggerInstance()
-	l.InitConfig()
-
 	e := eureka.GetClientInstance()
 	e.Register()
 
@@ -49,19 +49,18 @@ func run() {
 	h := web.GetHTTPInstance()
 	m := repository.GetMySQLInstance()
 	r := repository.GetRedisInstance()
-	l := log.GetLoggerInstance()
 	context := Context{
-		l,
+		logger.Logger,
 		h,
 		m,
 		r,
 	}
 
 	defer func() {
-		l.Warn("panic occurred, try to recover")
+		logger.Logger.Warn("panic occurred, try to recover")
 		if err := recover(); err != nil {
-			l.Error("stacktrace: \n" + string(debug.Stack()))
-			l.Fatal("really panic: ", err)
+			logger.Logger.Error("stacktrace: \n" + string(debug.Stack()))
+			logger.Logger.Fatal("really panic: ", err)
 		}
 	}()
 

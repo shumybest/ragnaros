@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/go-redis/redis/v8"
 	"github.com/shumybest/ragnaros/config"
+	. "github.com/shumybest/ragnaros/logger"
 	"sync"
 	"time"
 )
@@ -39,7 +40,7 @@ func (r *RedisClient) RedisGet(key string) (string, error) {
 		cache, err := r.Redis.Get(ctx, key).Result()
 
 		if err != nil && err != redis.Nil {
-			logger.Error("Get " + key + " error: " + err.Error())
+			Logger.Error("Get " + key + " error: " + err.Error())
 			return "", err
 		}
 

@@ -127,6 +127,17 @@ func finalizeValue() {
 	secret, _ := base64.StdEncoding.DecodeString(base64Secret)
 	Context.Security.JwtSecret = secret
 
+	// instance Id
+	preferIpAddress := GetConfigBool("eureka.instance.prefer-ip-address")
+	var hostName string
+	if preferIpAddress {
+		hostName = Context.IpAddr
+	} else {
+		hostName = Context.Hostname
+	}
+	shallPutValue("RAGNAROS_INSTANCEID", "", nil,
+		GetConfigString("eureka.instance.appname") + "-" + hostName)
+
 	Context.ConfigStore = &configStore
 }
 

@@ -40,7 +40,6 @@ type Claims struct {
 var Context = struct {
 	Profiles           string
 	ConfDir            string
-	ServiceName        string
 	Hostname           string
 	IpAddr             string
 	Port               string
@@ -58,8 +57,7 @@ const (
 	SuffixConfig      = ".yml"
 )
 
-func Init(serviceName string) {
-	shallPutValue("RAGNAROS_SERVICENAME", "", &Context.ServiceName, serviceName)
+func InitConfig() {
 	shallPutValue("RAGNAROS_CONF_DIR", "", &Context.ConfDir, "resources/config")
 
 	loadBootstrapConf()

@@ -4,12 +4,10 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/shumybest/ragnaros/config"
-	"github.com/shumybest/ragnaros/log"
+	. "github.com/shumybest/ragnaros/logger"
 	"net/http"
 	"strings"
 )
-
-var logger = log.GetLoggerInstance()
 
 func ValidateToken(tokenStr string) (*config.Claims) {
 	token, err := jwt.ParseWithClaims(tokenStr,
@@ -23,13 +21,13 @@ func ValidateToken(tokenStr string) (*config.Claims) {
 		}
 	}
 
-	logger.Error(err)
+	Logger.Error(err)
 	return nil
 }
 
 func AuthorizationInterceptor(c *gin.Context) {
 	authorString := c.Request.Header.Get("Authorization")
-	logger.Debug("Checking authentication: " + authorString)
+	Logger.Debug("Checking authentication: " + authorString)
 
 	if authorString == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{

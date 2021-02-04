@@ -3,15 +3,13 @@ package repository
 import (
 	"github.com/shumybest/ragnaros/config"
 	"github.com/shumybest/ragnaros/eureka"
-	"github.com/shumybest/ragnaros/log"
+	. "github.com/shumybest/ragnaros/logger"
 	"github.com/shumybest/ragnaros/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"strings"
 	"sync"
 )
-
-var logger = log.GetLoggerInstance()
 
 type MySQLClient struct {
 	*gorm.DB
@@ -34,7 +32,7 @@ func (m *MySQLClient) InitConnection() {
 		if strings.Contains(connString, "jdbc") {
 			connString = utils.JdbcToDSN(connString)
 		}
-		logger.Infof("connecting to databse: %s\n", connString)
+		Logger.Infof("connecting to databse: %s\n", connString)
 		connString = config.GetConfigString("spring.datasource.username") +
 			":" + config.GetConfigString("spring.datasource.password") +
 			"@" + connString + "&parseTime=true"
@@ -46,9 +44,9 @@ func (m *MySQLClient) InitConnection() {
 		}
 		m.DB = db
 		m.Status = eureka.UP
-		logger.Info("databse connected\n")
+		Logger.Info("databse connected\n")
 	} else {
-		logger.Warn("no database configured, continue")
+		Logger.Warn("no database configured, continue")
 	}
 }
 

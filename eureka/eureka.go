@@ -5,14 +5,12 @@ import (
 	"encoding/xml"
 	"github.com/shumybest/ragnaros/config"
 	"github.com/shumybest/ragnaros/feign"
-	"github.com/shumybest/ragnaros/log"
+	. "github.com/shumybest/ragnaros/logger"
 	"github.com/shumybest/ragnaros/utils"
 	"strings"
 	"sync"
 	"time"
 )
-
-var logger = log.GetLoggerInstance()
 
 const (
 	AppsUrl = "apps/"
@@ -37,7 +35,7 @@ var eurekaServiceUrl string
 func (c *Client) Register() {
 	eurekaServiceUrl = config.GetConfigString("eureka.client.service-url.defaultZone")
 	if eurekaServiceUrl == "" {
-		logger.Warn("Eureka Service URL is empty, running into mono mode")
+		Logger.Warn("Eureka Service URL is empty, running into mono mode")
 		c.Status = OUT_OF_SERVICE
 		return
 	}
@@ -46,7 +44,7 @@ func (c *Client) Register() {
 	buf, _ := xml.Marshal(c.Instance)
 	registerUrl := eurekaServiceUrl + AppsUrl + c.Instance.App
 
-	logger.Info("trying to register to Eureka: " + registerUrl)
+	Logger.Info("trying to register to Eureka: " + registerUrl)
 
 	resp, err := utils.RetryableClient().
 		SetHeader("Content-Type", "application/xml").
@@ -54,18 +52,18 @@ func (c *Client) Register() {
 		Post(registerUrl)
 
 	if err != nil {
-		logger.Error(err)
+		Logger.Error(err)
 		c.Status = OUT_OF_SERVICE
 		return
 	}
 
 	if resp.StatusCode() == 204 || resp.StatusCode() == 200 {
-		logger.Info("Eureka Client Register Succeed")
+		Logger.Info("Eureka Client Register Succeed")
 		c.Status = UP
 		go c.clientRefresh()
 	} else {
 		c.Status = OUT_OF_SERVICE
-		logger.Warnf("Eureka Client Register Failed: %s %s", resp.StatusCode(), resp)
+		Logger.Warnf("Eureka Client Register Failed: %s %s", resp.StatusCode(), resp)
 	}
 }
 
@@ -80,7 +78,7 @@ func (c *Client) clientRefresh() {
 		if resp, err := client.Put(instanceUrl); err == nil {
 			if resp.StatusCode() != 204 && resp.StatusCode() != 200 {
 				c.Status = UNKNOWN
-				logger.Warnf("Eureka Client Renew Failed: %s %s\n", resp)
+				Logger.Warnf("Eureka Client Renew Failed: %s %s\n", resp)
 
 				// perform register again
 				c.unRegister()
@@ -88,7 +86,7 @@ func (c *Client) clientRefresh() {
 				break
 			}
 		} else {
-			logger.Error(err)
+			Logger.Error(err)
 			c.Status = UNKNOWN
 			return
 		}
@@ -111,12 +109,12 @@ func (c *Client) clientRefresh() {
 				}
 			}
 		} else {
-			logger.Error(err)
+			Logger.Error(err)
 			c.Status = UNKNOWN
 			return
 		}
 
-		logger.Debugf("application refresh: %v\n", feign.Applications)
+		Logger.Debugf("application refresh: %v\n", feign.Applications)
 		config.SetConfig("ragnaros.conf.applications", feign.Applications)
 		c.Status = UP
 		time.Sleep(10 * time.Second)
@@ -129,13 +127,13 @@ func (c *Client) unRegister() {
 	resp, err := utils.RetryableClient().Delete(instanceUrl)
 	if err != nil {
 		c.Status = UNKNOWN
-		logger.Error(err)
+		Logger.Error(err)
 		return
 	}
 
 	if resp.StatusCode() != 204 && resp.StatusCode() != 200 {
 		c.Status = UNKNOWN
-		logger.Warnf("Eureka Client Delete Failed: %s %s", resp.StatusCode(), resp)
+		Logger.Warnf("Eureka Client Delete Failed: %s %s", resp.StatusCode(), resp)
 	} else {
 		c.Status = DOWN
 	}
