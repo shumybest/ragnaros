@@ -195,7 +195,7 @@ func DemoController(r *ragnaros.Context) {
 }
 ````
 
-#### Supported Environment Variables
+#### Supported Environment Variables or yml configurations
 Environment Variables | yml configuration field | default
 --------------------- | ------------------ | ----------------
 RAGNAROS_CONF_DIR |  | resources/config

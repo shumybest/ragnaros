@@ -76,4 +76,12 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
+ragnaros:
+  elasticsearch:
+    url:
+    host:
+    port:
+    username:
+    password:
+
 application:
