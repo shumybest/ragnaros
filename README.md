@@ -41,7 +41,7 @@ ragnaros download --force
 - [x] go tools for project generation
 - [x] async invoke of FeignClient
 - [x] logging support
-- [ ] logging elk support
+- [x] logging elk support
 - [ ] MQ support (like kafka)
 - [ ] deeper wrapper of resty for ribbon/hystrix implementation
 - [ ] tracing support (like skywalking)
@@ -208,6 +208,11 @@ SPRING_DATASOURCE_USERNAME | spring.datasource.username |
 SPRING_DATASOURCE_PASSWORD | spring.datasource.password |
 SPRING_REDIS_HOST | spring.redis.host | 127.0.0.1
 SPRING_REDIS_PORT | spring.redis.port | 6379
+RAGNAROS_ELASTICSEARCH_URL | ragnaros.elasticsearch.url |
+RAGNAROS_ELASTICSEARCH_HOST | ragnaros.elasticsearch.host |
+RAGNAROS_ELASTICSEARCH_PORT | ragnaros.elasticsearch.port | 9200
+RAGNAROS_ELASTICSEARCH_USERNAME | ragnaros.elasticsearch.username |
+RAGNAROS_ELASTICSEARCH_PASSWORD | ragnaros.elasticsearch.password |
 
 #### Module list (many thanks to the awesome projects)
 - [gin](https://github.com/gin-gonic/gin)
